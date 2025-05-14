@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About - ShopZone</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <div class="logo">🛍 ShopZone</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>About ShopZone</h1>
+    <p>Welcome to ShopZone! We are an online store committed to offering great deals on amazing products. Whether you're shopping for tech gadgets, fashion, or home essentials, we've got you covered.</p>
+    <p>Contact us at: <a href="mailto:support@shopzone.com">support@shopzone.com</a></p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 ShopZone. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById("cart-count").innerText = localStorage.getItem("cartCount") || 0;
+  </script>
+</body>
+</html>

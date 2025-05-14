@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart - ShopZone</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <div class="logo">🛍 ShopZone</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  
+  <main>
+    <h1>Your Shopping Cart</h1>
+    <section id="cart-items"></section>
+    <h2 id="total">Total: $0.00</h2>
+  </main>
+
+<script>
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  function renderCart() {
+    const container = document.getElementById("cart-items");
+    container.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach((item) => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+
+      const div = document.createElement("div");
+      div.classList.add("product-card");
+      div.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" style="max-width:100px">
+        <h3>${item.name}</h3>
+        <p>Price: $${item.price.toFixed(2)}</p>
+        <p>Quantity: 
+          <input type="number" value="${item.quantity}" min="1" data-index="${index}" class="qty-input">
+        </p>
+        <p>Subtotal: $${itemTotal.toFixed(2)}</p>
+        <button onclick="window.location.href='product.html'">Continue Shopping</button>
+        <button onclick="removeItemById(${item.id})">Remove</button>
+
+      `;
+      container.appendChild(div);
+    });
+
+    document.getElementById("total").innerText = `Total: $${total.toFixed(2)}`;
+
+    document.querySelectorAll(".qty-input").forEach(input => {
+      input.addEventListener("change", updateQuantity);
+    });
+  }
+
+  function updateQuantity(event) {
+    const index = event.target.dataset.index;
+    const newQty = parseInt(event.target.value);
+    if (newQty > 0) {
+      cart[index].quantity = newQty;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+      updateCartCount();
+    }
+  }
+
+     function removeItem(index) {
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+    updateCartCount();
+  }
+
+ 
+  function updateCartCount() {
+        const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+        localStorage.setItem("cartCount", count);
+        document.getElementById("cart-count").innerText = count;
+     }
+  renderCart();
+  updateCartCount();
+</script>
+
+  <footer>
+    <p>&copy; 2025 ShopZone. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById("item-count").innerText = localStorage.getItem("cartCount") || 0;
+    document.getElementById("cart-count").innerText = localStorage.getItem("cartCount") || 0;
+  </script>
+</body>
+</html>
